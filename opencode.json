@@ -12,12 +12,12 @@
     "plan": {
       "mode": "primary",
       "model": "opencode-go/deepseek-v4-pro",
-      "reasoningEffort": "max"
+      "reasoningEffort": "high"
     },
     "build": {
       "mode": "primary",
       "model": "opencode-go/deepseek-v4-flash",
-      "reasoningEffort": "medium"
+      "reasoningEffort": "high"
     }
   }
 }
