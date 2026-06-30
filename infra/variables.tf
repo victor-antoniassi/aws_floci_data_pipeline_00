@@ -21,3 +21,10 @@ variable "ecs_security_groups" {
   type        = list(string)
   default     = ["sg-00000000000000000"]
 }
+
+variable "coingecko_api_key" {
+  description = "CoinGecko API key for authenticated requests"
+  type        = string
+  sensitive   = true
+  default     = ""
+}

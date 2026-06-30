@@ -17,9 +17,7 @@ make invoke          # trigger Lambda → ECS
 make status          # check ECS tasks + S3 objects
 make logs            # tail logs
 make destroy         # terraform destroy + docker compose down
-
-## Skills (global)
-- `find-docs` — ~/.agents/skills/find-docs/ (outside repo, in home dir)
+Use `/run-pipeline` (smart, full, bootstrap, build, invoke, status, destroy) to orchestrate the full cycle.
 
 ## Key facts
 - Floci endpoint: http://localhost:4566 (needs healthcheck before use)
@@ -30,3 +28,4 @@ make destroy         # terraform destroy + docker compose down
 ## Hard rules
 1. Code, docs, and commits in English; conversations in pt-br
 2. Never commit real credentials, .env, or secrets files
+3. Python deps: use `uv add`, never `uv pip install` or `pip install`

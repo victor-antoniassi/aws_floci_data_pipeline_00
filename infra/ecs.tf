@@ -31,6 +31,10 @@ resource "aws_ecs_task_definition" "coingecko_pipeline" {
           name  = "DESTINATION__FILESYSTEM__CREDENTIALS__ENDPOINT_URL"
           value = "http://floci:4566"
         },
+        {
+          name  = "COINGECKO_API_KEY"
+          value = var.coingecko_api_key
+        },
       ]
 
       logConfiguration = {

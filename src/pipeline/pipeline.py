@@ -1,10 +1,14 @@
+import os
+
 import dlt
 from dlt.sources.helpers.rest_client import RESTClient
 
 
 @dlt.source
 def coingecko_source():
-    client = RESTClient(base_url="https://api.coingecko.com/api/v3")
+    api_key = os.environ.get("COINGECKO_API_KEY")
+    headers = {"x-cg-demo-api-key": api_key} if api_key else {}
+    client = RESTClient(base_url="https://api.coingecko.com/api/v3", headers=headers)
     response = client.get(
         "/coins/markets",
         params={
