@@ -6,3 +6,19 @@ __pycache__/
 dist/
 build/
 .DS_Store
+
+# Floci persistent state
+data/
+
+# OpenSpec planning artifacts (local only)
+openspec/
+
+# dlt: secrets with credentials + runtime pipeline data
+.dlt/secrets.toml
+.dlt/pipelines/
+
+# Terraform: provider cache, state files, and environment-specific vars
+.terraform/
+*.tfstate
+*.tfstate.backup
+infra/terraform.tfvars

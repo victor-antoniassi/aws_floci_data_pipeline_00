@@ -1,0 +1,14 @@
+.venv
+.git
+.gitignore
+__pycache__
+*.pyc
+.terraform
+terraform.tfstate*
+*.tfvars
+docker-compose.yml
+Makefile
+openspec
+.opencode
+AGENTS.md
+opencode.json

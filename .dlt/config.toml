@@ -1,0 +1,6 @@
+# dlt config file
+[extractor]
+request_max_attempts = 5
+request_backoff_factor = 1
+request_max_retry_delay = 30
+request_max_requests_per_second = 10

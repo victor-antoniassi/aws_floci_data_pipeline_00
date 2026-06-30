@@ -1,0 +1,8 @@
+# Floci endpoint for local AWS simulation
+floci_endpoint = "http://localhost:4566"
+
+# Placeholder values for local testing
+ecs_subnets        = ["subnet-00000000000000000"]
+ecs_security_groups = ["sg-00000000000000000"]
+
+# For real AWS deployment, set floci_endpoint = "" and provide real values.

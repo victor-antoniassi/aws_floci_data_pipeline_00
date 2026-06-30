@@ -1,0 +1,18 @@
+FROM python:3.12-slim AS builder
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
+WORKDIR /app
+COPY pyproject.toml uv.lock /app/
+RUN uv sync --locked --no-dev --extra orchestrator --no-install-project
+
+FROM public.ecr.aws/lambda/python:3.12 AS runtime
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/
+RUN echo 'app:x:1000:1000::/home/app:/bin/bash' >> /etc/passwd && \
+    echo 'app:x:1000:' >> /etc/group && \
+    mkdir -p /home/app && \
+    chown 1000:1000 /home/app
+COPY --from=builder /app/.venv /app/.venv
+ENV PYTHONPATH="/app/.venv/lib/python3.12/site-packages:$PYTHONPATH"
+ENV PATH="/app/.venv/bin:$PATH"
+COPY src/orchestrator/handler.py /var/task/handler.py
+USER app
+CMD ["handler.handler"]
