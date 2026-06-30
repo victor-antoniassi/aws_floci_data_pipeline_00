@@ -6,7 +6,7 @@ PIPELINE_REPO     ?= $(PROJECT_NAME)-pipeline
 ORCHESTRATOR_REPO ?= $(PROJECT_NAME)-orchestrator
 REGISTRY          ?= localhost:5100
 
-.PHONY: bootstrap build-pipeline build-orchestrator push-all invoke status logs destroy
+.PHONY: bootstrap build-pipeline build-orchestrator push-all invoke status logs destroy enable-schedule disable-schedule update-schedule
 
 bootstrap:
 	@echo "Waiting for Floci to be healthy..."
@@ -69,6 +69,16 @@ logs:
 		--query 'logStreams[*].logStreamName' --output json 2>/dev/null || \
 		echo "(no ECS logs yet)"
 
+enable-schedule:
+	cd infra && terraform apply -auto-approve \
+		-var="enable_schedule=true" \
+		-var="schedule_expression=$(EXPR)"
+
+disable-schedule:
+	cd infra && terraform apply -auto-approve \
+		-var="enable_schedule=false"
+
 destroy:
+	export AWS_ACCESS_KEY_ID=test && export AWS_SECRET_ACCESS_KEY=test && \
 	cd infra && terraform destroy -auto-approve; \
 	docker compose down

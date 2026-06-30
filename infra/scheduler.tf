@@ -1,6 +1,7 @@
 resource "aws_scheduler_schedule" "coingecko_hourly" {
+  count                        = var.enable_schedule ? 1 : 0
   name                         = "${var.project_name}-hourly"
-  schedule_expression          = "rate(1 hour)"
+  schedule_expression          = var.schedule_expression
   schedule_expression_timezone = "UTC"
   flexible_time_window {
     mode = "OFF"

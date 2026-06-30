@@ -10,15 +10,16 @@ Execute the CoinGecko data pipeline: extract from CoinGecko API via dlt, load as
 Check the value of `$ARGUMENTS` and jump directly to the corresponding section below.
 
 | `$ARGUMENTS` | Go to section |
-|---|---|
+|---|---|---|
 | *(empty or not provided)* | [Smart mode](#smart-mode) |
 | `full` | [Full mode](#full-mode) |
 | `bootstrap` | [Bootstrap mode](#bootstrap-mode) |
 | `build` | [Build mode](#build-mode) |
 | `invoke` | [Invoke mode](#invoke-mode) |
 | `status` | [Status mode](#status-mode) |
+| starts with `schedule` | [Schedule mode](#schedule-mode) — extract the rest as expression |
 | `destroy` | [Destroy mode](#destroy-mode) |
-| *anything else* | Stop and report: "Unknown mode: `$ARGUMENTS`. Valid modes: full, bootstrap, build, invoke, status, destroy." |
+| *anything else* | Stop and report: "Unknown mode: `$ARGUMENTS`. Valid modes: full, bootstrap, build, invoke, status, schedule, destroy." |
 
 ---
 
@@ -113,6 +114,10 @@ Execute steps 1-2 only:
 1. Start Floci: `docker compose up -d`, wait healthy.
 2. Terraform: `make bootstrap`.
 
+The schedule is **disabled by default** (`enable_schedule = false`). No automatic pipeline executions will occur.
+
+To enable scheduling after bootstrap: `/run-pipeline schedule "rate(1 hour)"`.
+
 Stop here.
 
 ## Build mode
@@ -145,15 +150,36 @@ Execute step 7 only — show current state without running pipeline:
 2. `make logs` with AWS env vars set.
 3. Print a readable summary of ECS tasks and S3 objects.
 
+## Schedule mode
+
+Configure the pipeline scheduling. The schedule is **disabled by default** — the pipeline only runs on manual `make invoke`. Enable it to simulate production behavior.
+
+**Usage:** `/run-pipeline schedule "cron(0 8 * * ? *)"`
+
+Argument handling:
+- `$ARGUMENTS` starts with `schedule` — extract everything after the space as the expression
+- Strip surrounding quotes if present
+- Example: `$ARGUMENTS` = `schedule "cron(0 8 * * ? *)"` → expression = `cron(0 8 * * ? *)`
+
+Steps:
+1. **Floci health** — Same as Step 1 above. If unhealthy, start and poll.
+2. **Terraform state** — Same as Step 2 above. If 0 resources, bootstrap first.
+3. **Apply schedule** — `make enable-schedule EXPR="<expression>"` with AWS env vars set.
+4. **Verify** — Run `make status` and check the schedule_status output.
+
+To disable the schedule later: `make disable-schedule`.
+
+**Important:** Toggling the schedule on/off does NOT destroy other infrastructure. The IAM roles, Lambda function, ECS resources, and S3 bucket remain intact. Use `make destroy` to tear down everything.
+
+---
+
 ## Destroy mode
 
 Tear down all infrastructure:
 
 1. Export AWS credentials if unset.
-2. `cd infra && terraform destroy -auto-approve`
-3. `docker compose down`
-4. `sleep 3`
-5. Report: "Pipeline infrastructure destroyed."
+2. `make destroy` with AWS env vars set.
+3. Report: "Pipeline infrastructure destroyed."
 
 ---
 
@@ -162,6 +188,7 @@ Tear down all infrastructure:
 - All `make` targets inherit from the project Makefile (`PROJECT_NAME=coingecko`, `ENDPOINT_URL=http://localhost:4566`).
 - The ECS container runs on `floci_network` and resolves `http://floci:4566` internally to reach S3.
 - If CoinGecko returns errors, check `coingecko_api_key` in `infra/terraform.tfvars` (gitignored).
+- The EventBridge Scheduler is **disabled by default**. Enable it with `make enable-schedule EXPR="rate(1 hour)"` to simulate production. Disable with `make disable-schedule`.
 - This command does NOT modify source code or commit anything.
 
 ---

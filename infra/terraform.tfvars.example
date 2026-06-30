@@ -5,4 +5,10 @@ floci_endpoint = "http://localhost:4566"
 ecs_subnets        = ["subnet-00000000000000000"]
 ecs_security_groups = ["sg-00000000000000000"]
 
+# Scheduling (optional, disabled by default)
+# enable_schedule      = true
+# schedule_expression = "rate(1 hour)"        # every hour
+# schedule_expression  = "cron(0 8 * * ? *)"   # daily at 08:00 UTC
+# schedule_expression  = "rate(30 minutes)"     # every 30 minutes
+
 # For real AWS deployment, set floci_endpoint = "" and provide real values.

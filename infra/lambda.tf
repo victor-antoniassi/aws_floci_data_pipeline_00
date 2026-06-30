@@ -21,4 +21,5 @@ resource "aws_lambda_permission" "eventbridge" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.orchestrator.function_name
   principal     = "scheduler.amazonaws.com"
+  source_arn    = try(aws_scheduler_schedule.coingecko_hourly[0].arn, "")
 }

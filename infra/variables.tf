@@ -28,3 +28,15 @@ variable "coingecko_api_key" {
   sensitive   = true
   default     = ""
 }
+
+variable "enable_schedule" {
+  description = "Enable the EventBridge Scheduler for automated pipeline execution"
+  type        = bool
+  default     = false
+}
+
+variable "schedule_expression" {
+  description = "Schedule expression for EventBridge Scheduler (rate or cron format)"
+  type        = string
+  default     = "rate(1 hour)"
+}

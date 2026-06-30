@@ -25,3 +25,11 @@ output "ecs_task_definition_arn" {
   description = "ARN of the pipeline task definition"
   value       = aws_ecs_task_definition.coingecko_pipeline.arn
 }
+
+output "schedule_status" {
+  description = "Whether the EventBridge Scheduler is active and its schedule expression"
+  value = {
+    active    = var.enable_schedule
+    schedule  = var.enable_schedule ? var.schedule_expression : "disabled"
+  }
+}
