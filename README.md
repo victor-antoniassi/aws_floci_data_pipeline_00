@@ -67,6 +67,7 @@ flowchart LR
 ### Prerequisites
 
 - [Docker](https://docs.docker.com/get-docker/) + [Docker Compose](https://docs.docker.com/compose/install/)
+- [make](https://www.gnu.org/software/make/) — GNU Make (install according to your OS/distribution)
 - [uv](https://docs.astral.sh/uv/) (Python package manager)
 - [Terraform](https://developer.hashicorp.com/terraform/install) >= 1.0
 - [AWS CLI](https://aws.amazon.com/cli/) (for local Floci interactions)
