@@ -18,7 +18,7 @@
 
 I built this project to learn AWS serverless architecture from scratch — I had no prior professional experience with Lambda, ECS Fargate, S3, or Terraform. The goal was to design and run a real-world data pipeline end-to-end without needing an AWS account or incurring cloud costs.
 
-**Why Floci?** [Floci](https://github.com/anomalyco/floci) is an AWS emulator (a fork of LocalStack) that runs Lambda, ECS, S3, ECR, CloudWatch, and EventBridge locally. This means:
+**Why Floci?** [Floci](https://github.com/floci-io/floci) is an AWS emulator (a fork of LocalStack) that runs Lambda, ECS, S3, ECR, CloudWatch, and EventBridge locally. This means:
 
 - **Zero AWS costs** — iterate freely, run as many times as needed
 - **Fast dev loop** — build, deploy, and test entirely on your machine
