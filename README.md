@@ -58,7 +58,7 @@ flowchart LR
 - **Serverless orchestration** — Lambda invokes ECS Fargate tasks on demand
 - **Scheduled or on-demand** — optional EventBridge Scheduler (rate/cron expression)
 - **Infrastructure as Code** — full AWS topology defined in Terraform
-- **100% local simulation** — [Floci](https://github.com/anomalyco/floci) emulates Lambda, ECS, S3, CloudWatch, and ECR without AWS costs
+- **100% local simulation** — [Floci](https://github.com/floci-io/floci) emulates Lambda, ECS, S3, CloudWatch, and ECR without AWS costs
 
 ---
 
